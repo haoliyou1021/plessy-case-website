@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plessy v. Ferguson (1896)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3498db',
+                        secondary: '#2c3e50',
+                        accent: '#e74c3c',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .transition-smooth {
+                transition: all 0.3s ease-in-out;
+            }
+            .chinese-content {
+                display: none;
+                margin-top: 8px;
+                padding: 8px;
+                background: #f5f7fa;
+                border-radius: 4px;
+            }
+            .mode-interactive .toggleable-chinese {
+                cursor: pointer;
+                color: #3498db;
+                font-weight: 600;
+                display: inline-block;
+                margin: 4px 0;
+            }
+            .mode-interactive .toggleable-chinese.active + .chinese-content {
+                display: block;
+            }
+            .mode-normal .toggleable-chinese {
+                display: none;
+            }
+            .mode-normal .chinese-content {
+                display: block;
+                background: transparent;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+    <!-- 导航栏 -->
+    <nav class="bg-secondary text-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-balance-scale text-2xl"></i>
+                <h1 class="text-xl font-bold">Plessy v. Ferguson (1896)</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="mode-toggle flex items-center space-x-2">
+                    <span>阅读模式:</span>
+                    <button id="normalMode" class="px-3 py-1 bg-primary rounded text-sm font-medium">正常</button>
+                    <button id="interactiveMode" class="px-3 py-1 bg-gray-600 hover:bg-primary rounded text-sm font-medium transition-smooth">互动</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <div class="container mx-auto px-4 py-8">
+        <!-- 网站介绍 -->
+        <div class="mb-10 text-center">
+            <h2 class="text-3xl font-bold text-secondary mb-4">美国最高法院里程碑案件</h2>
+            <p class="text-gray-600 max-w-3xl mx-auto">本网站展示了普莱西诉弗格森案的详细内容，这是美国历史上关于种族隔离的标志性案件</p>
+            <p class="mt-2 text-sm text-gray-500">设计者：黄麓颖</p>
+        </div>
+
+        <!-- AI问答区域 -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-10">
+            <h3 class="text-xl font-bold text-secondary mb-4">案件问答助手</h3>
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-grow">
+                    <input type="text" id="questionInput" 
+                           placeholder="请输入关于本案的问题..." 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-smooth">
+                </div>
+                <button id="askButton" class="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-lg transition-smooth">
+                    提问
+                </button>
+            </div>
+            <div id="answerContainer" class="mt-4 p-4 bg-gray-50 rounded-lg hidden">
+                <h4 class="font-bold text-secondary mb-2">回答:</h4>
+                <p id="answerText" class="text-gray-700"></p>
+            </div>
+        </div>
+
+        <!-- 内容区域 -->
+        <div id="contentContainer" class="bg-white rounded-lg shadow-lg p-6 md:p-8 mode-normal">
+            <!-- 一、设计工具、方法、过程 -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-bold text-secondary mb-6 pb-2 border-b border-gray-200">一、设计工具、方法、过程</h2>
+                
+                <h3 class="text-xl font-semibold text-primary mb-3">1. 设计工具</h3>
+                <p class="mb-4">Deepseek</p>
+
+                <h3 class="text-xl font-semibold text-primary mb-3">2. 方法过程</h3>
+                <ol class="list-decimal list-inside ml-4 space-y-2 mb-6">
+                    <li>从法律数据库 westlaw 获得英文原版法律意见书</li>
+                    <li>略读，理清法庭意见书关键结构，同时标注关键词和短语</li>
+                    <li>借助 Deepseek 在提炼的关键词的基础上整理意见书要素与双语语料库</li>
+                    <li>通过小红书平台查找快速制作网页的方法</li>
+                    <li>输入准确指令让 DeepSeek 帮忙写出代码</li>
+                    <li>生成网站</li>
+                </ol>
+            </section>
+
+            <!-- 二、法庭意见书要素 -->
+            <section class="mb-12">
+                <h2 class="text-2xl font-bold text-secondary mb-6 pb-2 border-b border-gray-200">二、Court Opinion Elements（法庭意见书要素）</h2>
+
+                <h3 class="text-xl font-semibold text-primary mb-3">1. Nature of Case（案件性质）</h3>
+                <p class="mb-2">A landmark constitutional civil rights case heard by the U.S. Supreme Court. The dispute focuses on whether a Louisiana state law mandating railroad companies to provide "separate but equal" passenger accommodations for white and colored races violates the 13th and 14th Amendments to the U.S. Constitution. This case defined the legal basis for racial segregation in the U.S. for nearly 60 years.</p>
+                <span class="toggleable-chinese">点击显示中文</span>
+                <p class="chinese-content">美国最高法院审理的标志性宪法民权案件。争议焦点为路易斯安那州一项要求铁路公司为白人和有色人种提供"隔离但平等"乘客设施的法律，是否违反美国宪法第13和第14修正案。该案为美国近60年的种族隔离制度奠定了法律基础。</p>
+
+                <h3 class="text-xl font-semibold text-primary mb-3 mt-8">2. Concise Rule of Law（核心法律规则）</h3>
+                <ol class="list-decimal list-inside ml-4 space-y-4 mb-6">
+                    <li>
+                        <p class="mb-1">The 13th Amendment (abolishing slavery) only prohibits slavery and involuntary servitude; it does not ban "reasonable racial segregation" that merely creates legal distinctions between races without imposing conditions of bondage.</p>
+                        <span class="toggleable-chinese">点击显示中文</span>
+                        <p class="chinese-content">第13修正案（废除奴隶制）仅禁止奴隶制和非自愿劳役，不禁止"合理的种族隔离"——即仅在种族间创设法律区分、未施加奴役条件的制度。</p>
+                    </li>
+                    <li>
+                        <p class="mb-1">The 14th Amendment (guaranteeing equal protection of the laws and due process) applies only to legal and political equality, not social equality. States may exercise their police power to enact laws requiring racial segregation in public spaces (e.g., public transportation) as long as the segregated facilities are "substantially equal" in quality.</p>
+                        <span class="toggleable-chinese">点击显示中文</span>
+                        <p class="chinese-content">第14修正案（保障法律平等保护与正当程序）仅适用于法律和政治平等，不适用于社会平等。各州可行使治安权，制定要求公共空间（如公共交通）种族隔离的法律，只要隔离设施在质量上"实质平等"。</p>
+                    </li>
+                    <li>
+                        <p class="mb-1">States have the authority to independently define racial classification standards (e.g., blood proportion thresholds for identifying "colored persons"), and such definitions fall within state legislative jurisdiction unless they directly violate federal constitutional principles.</p>
+                        <span class="toggleable-chinese">点击显示中文</span>
+                        <p class="chinese-content">各州有权自主定义种族分类标准（如认定"有色人种"的血统比例阈值），此类定义属于州立法管辖权范围，除非直接违反联邦宪法原则。</p>
+                    </li>
+                </ol>
+
+                <h3 class="text-xl font-semibold text-primary mb-3">3. Facts（案件事实）</h3>
+                <ul class="list-disc list-inside ml-4 space-y-4 mb-6">
+                    <li>
+                        <p class="mb-1">Homer Plessy, a U.S. citizen and Louisiana resident, had mixed ancestry: seven-eighths Caucasian and one-eighth African. His African heritage was not visually discernible, and he was legally entitled to the same rights as white citizens.</p>
+                        <span class="toggleable-chinese">点击显示中文</span>
+                        <p class="chinese-content">荷马·普莱西（美国公民、路易斯安那州居民）为混血血统：八分之七白人血统、八分之一非洲血统。其非洲血统从外貌无法辨别，且依法享有与白人公民同等的权利。</p>
+                    </li>
+                    <li>
+                        <p class="mb-1">On June 7, 1892, Plessy purchased a first-class ticket for a train operated by the East Louisiana Railway (traveling from New Orleans to Covington, both within Louisiana) and occupied a seat in the coach designated for white passengers.</p>
+                        <span class="toggleable-chinese">点击显示中文</span>
+                        <p class="chinese-content">1892年6月7日，普莱西购买了东路易斯安那铁路公司（往返于路易斯安那州新奥尔良与科文顿之间）的一等车票，并坐在指定给白人乘客的车厢座位上。</p>
+                    </li>
+                    <li>
+                        <p class="mb-1">The East Louisiana Railway, acting under a Louisiana state law passed in 1890 (requiring separate accommodations for white and colored races), ordered Plessy to move to the coach reserved for colored passengers. Plessy refused.</p>
+                        <span class="toggleable-chinese">点击显示中文</span>
+                        <p class="chinese-content">东路易斯安那铁路公司依据1890年路易斯安那州通过的法律（要求为白人和有色人种提供隔离设施），命令普莱西迁往有色人种专用车厢，普莱西拒绝服从。</p>
+                    </li>
+                    <li>
+                        <p class="mb-1">Plessy was forcibly removed from the white passengers' coach by police and imprisoned in the New Orleans parish jail. He was charged with violating the 1890 Louisiana segregation law.</p>
+                        <span class="toggleable-chinese">点击显示中文</span>
+                        <p class="chinese-content">警方将普莱西从白人车厢强行带离，并关押在新奥尔良教区监狱。普莱西被指控违反1890年路易斯安那州隔离法。</p>
+                    </li>
+                    <li>
+                        <p class="mb-1">Plessy challenged the constitutionality of the Louisiana law, arguing it violated the 13th and 14th Amendments. The Louisiana Supreme Court rejected his claim, prompting Plessy to appeal to the U.S. Supreme Court.</p>
+                        <span class="toggleable-chinese">点击显示中文</span>
+                        <p class="chinese-content">普莱西质疑该州法的合宪性，主张其违反第13和第14修正案。路易斯安那州最高法院驳回其诉求，普莱西遂上诉至美国最高法院。</p>
+                    </li>
+                    <li>
+                        <p class="mb-1">The 1890 Louisiana law required railroad companies to provide either separate coaches or partitioned sections for white and colored passengers; violations (e.g., a passenger occupying a coach of the other race) carried penalties of a $25 fine or up to 20 days in jail.</p>
+                        <span class="toggleable-chinese">点击显示中文</span>
+                        <p class="chinese-content">1890年路易斯安那州法要求铁路公司为白人和有色人种提供独立车厢或分隔区域；违反者（如乘客占用另一种族的车厢）将面临25美元罚款或最长20天监禁。</p>
+                    </li>
+                </ul>
+
+                <h3 class="text-xl font-semibold text-primary mb-3">4. Issue（争议焦点）</h3>
+                <p class="font-semibold text-accent mb-2">Does the Louisiana state law mandating railroad companies to provide "separate but equal" passenger accommodations for white and colored races violate the U.S. Constitution's 13th Amendment (prohibiting slavery/involuntary servitude) and 14th Amendment (guaranteeing equal protection and due process)?</p>
+                <span class="toggleable-chinese">点击显示中文</span>
+                <p class="chinese-content">路易斯安那州要求铁路公司为白人和有色人种提供"隔离但平等"乘客设施的法律，是否违反美国宪法第13修正案（禁止奴隶制/非自愿劳役）和第14修正案（保障平等保护与正当程序）？</p>
+
+                <h3 class="text-xl font-semibold text-primary mb-3 mt-8">5. Holding（判决理由）</h3>
+                <ol class="list-decimal list-inside ml-4 space-y-4 mb-6">
+                    <li>
+                        <p class="font-semibold mb-1">13th Amendment Challenge</p>
+                        <p class="mb-1">The Louisiana law does not violate the 13th Amendment. Racial segregation merely creates a legal distinction based on skin color, not a condition of slavery or involuntary servitude. The 13th Amendment's purpose is to eliminate bondage, not to regulate social interactions or public space usage between races.</p>
+                        <span class="toggleable-chinese">点击显示中文</span>
+                        <p class="chinese-content">第13修正案相关争议：该州法未违反第13修正案。种族隔离仅基于肤色创设法律区分，并非奴隶制或非自愿劳役状态。第13修正案的目的是消除奴役，而非规制种族间的社会交往或公共空间使用。</p>
+                    </li>
+                    <li>
+                        <p class="font-semibold mb-1">14th Amendment Challenge</p>
+                        <ul class="list-disc list-inside ml-4 space-y-3">
+                            <li>
+                                <p class="mb-1">The 14th Amendment's "Equal Protection Clause" does not require "social equality" (e.g., racial integration in public transportation); it only mandates that states not deny legal rights based on race. As long as segregated facilities (e.g., railroad coaches) are equal in quality, the "equal protection" requirement is satisfied.</p>
+                                <span class="toggleable-chinese">点击显示中文</span>
+                                <p class="chinese-content">第14修正案"平等保护条款"不要求"社会平等"（如公共交通中的种族融合），仅要求各州不得基于种族剥夺法律权利。只要隔离设施（如铁路车厢）质量平等，即满足"平等保护"要求。</p>
+                            </li>
+                            <li>
+                                <p class="mb-1">States have the authority to exercise police power to regulate public order and comfort. Segregation laws are a reasonable exercise of this power, as they align with societal customs and traditions and help maintain public peace.</p>
+                                <span class="toggleable-chinese">点击显示中文</span>
+                                <p class="chinese-content">各州有权行使治安权以规制公共秩序与舒适度。隔离法是该权力的合理行使，因其符合社会习俗与传统，且有助于维护公共和平。</p>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p class="font-semibold mb-1">Racial Classification</p>
+                        <p class="mb-1">The question of whether Plessy was legally "colored" under Louisiana law is irrelevant to the case's core issue (the constitutionality of the segregation law itself). States may define racial categories independently, and such definitions do not inherently violate federal law.</p>
+                        <span class="toggleable-chinese">点击显示中文</span>
+                        <p class="chinese-content">种族分类：根据路易斯安那州法，普莱西是否为法律意义上的"有色人种"，与案件核心争议（隔离法本身的合宪性）无关。各州可自主定义种族类别，此类定义本身不违反联邦法律。</p>
+                    </li>
+                </ol>
+
+                <h3 class="text-xl font-semibold text-primary mb-3">6. Decision（判决结果）</h3>
+                <p class="font-semibold text-accent mb-2">Affirmed.（维持原判）</p>
+                <p class="mb-2">The U.S. Supreme Court affirmed the judgment of the Louisiana Supreme Court. The Louisiana law mandating "separate but equal" railroad accommodations was declared constitutional. Plessy's claim that the law violated the 13th and 14th Amendments was rejected. This decision established the "separate but equal" doctrine as the legal foundation for racial segregation in the U.S. until it was overturned in <span class="font-semibold">Brown v. Board of Education (1954)</span>. Justice John Marshall Harlan filed a dissenting opinion, arguing the law was inherently discriminatory and violated the Constitution's "color-blind" principle.</p>
+                <span class="toggleable-chinese">点击显示中文</span>
+                <p class="chinese-content">美国最高法院维持路易斯安那州最高法院的判决，认定要求铁路"隔离但平等"设施的州法合宪，驳回普莱西关于该法违反第13和第14修正案的主张。该判决确立"隔离但平等"原则为美国种族隔离的法律基础，直至1954年《布朗诉教育委员会案》（Brown v. Board of Education）将其推翻。约翰·马歇尔·哈伦大法官发表异议意见，主张该法本质上具有歧视性，违反宪法的"无色盲"原则。</p>
+            </section>
+
+            <!-- 三、双语知识库 -->
+            <section>
+                <h2 class="text-2xl font-bold text-secondary mb-6 pb-2 border-b border-gray-200">三、Bilingual Knowledge Base（双语知识库）</h2>
+
+                <h3 class="text-xl font-semibold text-primary mb-3">1. Key Words（核心单词，20个）</h3>
+                <div class="overflow-x-auto mb-8">
+                    <table class="min-w-full bg-white border border-gray-200">
+                        <thead>
+                            <tr class="bg-primary text-white">
+                                <th class="py-3 px-4 text-left">英文单词</th>
+                                <th class="py-3 px-4 text-left">中文释义</th>
+                                <th class="py-3 px-4 text-left">法律语境用法示例</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-200 bg-gray-50">
+                                <td class="py-3 px-4">Constitution</td>
+                                <td class="py-3 px-4">宪法</td>
+                                <td class="py-3 px-4">The U.S. Constitution protects fundamental rights.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Amendment</td>
+                                <td class="py-3 px-4">修正案</td>
+                                <td class="py-3 px-4">The 14th Amendment includes the Equal Protection Clause.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 bg-gray-50">
+                                <td class="py-3 px-4">Segregation</td>
+                                <td class="py-3 px-4">隔离（制度）</td>
+                                <td class="py-3 px-4">Racial segregation was legalized by Plessy v. Ferguson.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Discrimination</td>
+                                <td class="py-3 px-4">歧视</td>
+                                <td class="py-3 px-4">The law prohibits discrimination based on race.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 bg-gray-50">
+                                <td class="py-3 px-4">Jurisdiction</td>
+                                <td class="py-3 px-4">管辖权</td>
+                                <td class="py-3 px-4">State courts have jurisdiction over most civil cases.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Plaintiff</td>
+                                <td class="py-3 px-4">原告</td>
+                                <td class="py-3 px-4">Homer Plessy was the plaintiff in this case.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 bg-gray-50">
+                                <td class="py-3 px-4">Defendant</td>
+                                <td class="py-3 px-4">被告</td>
+                                <td class="py-3 px-4">The Louisiana state government was the defendant.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Statute</td>
+                                <td class="py-3 px-4">制定法（州法/联邦法）</td>
+                                <td class="py-3 px-4">The 1890 Louisiana statute mandated racial segregation.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 bg-gray-50">
+                                <td class="py-3 px-4">Violate</td>
+                                <td class="py-3 px-4">违反（法律）</td>
+                                <td class="py-3 px-4">Plessy argued the statute violated the Constitution.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Immunity</td>
+                                <td class="py-3 px-4">豁免权</td>
+                                <td class="py-3 px-4">Government officials may have qualified immunity.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 bg-gray-50">
+                                <td class="py-3 px-4">Citizenship</td>
+                                <td class="py-3 px-4">公民身份</td>
+                                <td class="py-3 px-4">U.S. citizenship guarantees certain constitutional rights.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Due process of law</td>
+                                <td class="py-3 px-4">正当法律程序</td>
+                                <td class="py-3 px-4">The 14th Amendment protects due process of law.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 bg-gray-50">
+                                <td class="py-3 px-4">Equal protection</td>
+                                <td class="py-3 px-4">平等保护</td>
+                                <td class="py-3 px-4">States must provide equal protection to all citizens.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Police power</td>
+                                <td class="py-3 px-4">治安权</td>
+                                <td class="py-3 px-4">States exercise police power to protect public safety.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 bg-gray-50">
+                                <td class="py-3 px-4">Appellate court</td>
+                                <td class="py-3 px-4">上诉法院</td>
+                                <td class="py-3 px-4">The U.S. Supreme Court is the highest appellate court.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Verdict</td>
+                                <td class="py-3 px-4">判决（陪审团裁决）</td>
+                                <td class="py-3 px-4">The jury returned a guilty verdict.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 bg-gray-50">
+                                <td class="py-3 px-4">Precedent</td>
+                                <td class="py-3 px-4">先例</td>
+                                <td class="py-3 px-4">Plessy v. Ferguson set a harmful precedent for segregation.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Invalid</td>
+                                <td class="py-3 px-4">无效的（法律上）</td>
+                                <td class="py-3 px-4">The court declared the law invalid.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 bg-gray-50">
+                                <td class="py-3 px-4">Enforce</td>
+                                <td class="py-3 px-4">执行（法律）</td>
+                                <td class="py-3 px-4">Police enforce state and federal laws.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Petition</td>
+                                <td class="py-3 px-4">请愿书（法律文书）</td>
+                                <td class="py-3 px-4">Plessy filed a petition to appeal to the Supreme Court.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="text-xl font-semibold text-primary mb-3">2. Key Phrases（核心短语，10个）</h3>
+                <div class="overflow-x-auto mb-8">
+                    <table class="min-w-full bg-white border border-gray-200">
+                        <thead>
+                            <tr class="bg-primary text-white">
+                                <th class="py-3 px-4 text-left">英文短语</th>
+                                <th class="py-3 px-4 text-left">中文释义</th>
+                                <th class="py-3 px-4 text-left">案例语境示例</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-200 bg-gray-50">
+                                <td class="py-3 px-4">Separate but equal</td>
+                                <td class="py-3 px-4">隔离但平等</td>
+                                <td class="py-3 px-4">The "separate but equal" doctrine was established in Plessy v. Ferguson.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Thirteenth Amendment</td>
+                                <td class="py-3 px-4">第十三修正案</td>
+                                <td class="py-3 px-4">The Thirteenth Amendment abolished slavery in the U.S.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 bg-gray-50">
+                                <td class="py-3 px-4">Fourteenth Amendment</td>
+                                <td class="py-3 px-4">第十四修正案</td>
+                                <td class="py-3 px-4">The Fourteenth Amendment was central to Plessy's argument.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Equal Protection Clause</td>
+                                <td class="py-3 px-4">平等保护条款</td>
+                                <td class="py-3 px-4">The Equal Protection Clause applies to state governments.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 bg-gray-50">
+                                <td class="py-3 px-4">Due Process Clause</td>
+                                <td class="py-3 px-4">正当法律程序条款</td>
+                                <td class="py-3 px-4">The Due Process Clause prevents unfair government actions.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Police power of the state</td>
+                                <td class="py-3 px-4">州治安权</td>
+                                <td class="py-3 px-4">The court upheld the law as a valid exercise of the police power of the state.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 bg-gray-50">
+                                <td class="py-3 px-4">Writ of prohibition</td>
+                                <td class="py-3 px-4">禁止令</td>
+                                <td class="py-3 px-4">The plaintiff requested a writ of prohibition to stop the trial.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Writ of certiorari</td>
+                                <td class="py-3 px-4">调取案卷令</td>
+                                <td class="py-3 px-4">The Supreme Court granted a writ of certiorari to review the case.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 bg-gray-50">
+                                <td class="py-3 px-4">Criminal district court</td>
+                                <td class="py-3 px-4">刑事地区法院</td>
+                                <td class="py-3 px-4">Plessy's case first went to a criminal district court.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Common carrier</td>
+                                <td class="py-3 px-4">公共承运人（如铁路公司）</td>
+                                <td class="py-3 px-4">The East Louisiana Railway was a common carrier bound by state law.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="text-xl font-semibold text-primary mb-3">3. Typical Sentence Patterns（典型句型，5个）</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white border border-gray-200">
+                        <thead>
+                            <tr class="bg-primary text-white">
+                                <th class="py-3 px-4 text-left">英文句型</th>
+                                <th class="py-3 px-4 text-left">中文释义</th>
+                                <th class="py-3 px-4 text-left">案例应用示例</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-200 bg-gray-50">
+                                <td class="py-3 px-4">A state statute requiring [specific conduct] does not violate the [X Amendment] of the U.S. Constitution, provided that it is a reasonable exercise of the state's police power.</td>
+                                <td class="py-3 px-4">要求[特定行为]的州法，若属于州治安权的合理行使，则不违反美国宪法[第X修正案]。</td>
+                                <td class="py-3 px-4">A state statute requiring separate railroad coaches does not violate the 14th Amendment, provided that it is a reasonable exercise of the state's police power.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">The core purpose of the [X Amendment] is to [protect specific rights], rather than to prohibit [certain social practices] that do not infringe upon those rights.</td>
+                                <td class="py-3 px-4">[第X修正案]的核心目的是[保护特定权利]，而非禁止未侵犯该权利的[特定社会行为]。</td>
+                                <td class="py-3 px-4">The core purpose of the 13th Amendment is to abolish slavery, rather than to prohibit racial segregation that does not infringe upon that right.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 bg-gray-50">
+                                <td class="py-3 px-4">A law that creates a legal distinction between races does not necessarily imply the inferiority of one race, and such distinction is permissible if the associated facilities are equal in quality.</td>
+                                <td class="py-3 px-4">创设种族间法律区分的法律未必暗示某一种族劣等，若相关设施质量平等，该区分具有合法性。</td>
+                                <td class="py-3 px-4">A law that creates a legal distinction between white and colored passengers does not necessarily imply the inferiority of colored races, and such distinction is permissible if the associated coaches are equal in quality.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">The plaintiff challenges the constitutionality of the state statute on the ground that it deprives him of [specific rights] guaranteed by the [X Amendment].</td>
+                                <td class="py-3 px-4">原告以州法剥夺其[第X修正案]所保障的[特定权利]为由，质疑该法违宪。</td>
+                                <td class="py-3 px-4">The plaintiff challenges the constitutionality of the Louisiana statute on the ground that it deprives him of equal protection guaranteed by the 14th Amendment.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 bg-gray-50">
+                                <td class="py-3 px-4">This Court affirms the judgment of the lower court, holding that the [state statute] is consistent with the U.S. Constitution and constitutes a valid exercise of the state's legislative authority.</td>
+                                <td class="py-3 px-4">本院维持下级法院判决，认定[州法]符合美国宪法，是州立法权的合法行使。</td>
+                                <td class="py-3 px-4">This Court affirms the judgment of the Louisiana Supreme Court, holding that the 1890 segregation statute is consistent with the U.S. Constitution and constitutes a valid exercise of the state's legislative authority.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="bg-secondary text-white py-6 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 Plessy v. Ferguson 案件展示网站</p>
+            <p class="text-sm mt-2 text-gray-300">基于历史案件资料整理而成</p>
+        </div>
+    </footer>
+
+    <script>
+        // 模式切换功能
+        const normalModeBtn = document.getElementById('normalMode');
+        const interactiveModeBtn = document.getElementById('interactiveMode');
+        const contentContainer = document.getElementById('contentContainer');
+
+        // 初始设置为正常模式
+        contentContainer.classList.add('mode-normal');
+        
+        normalModeBtn.addEventListener('click', () => {
+            contentContainer.classList.remove('mode-interactive');
+            contentContainer.classList.add('mode-normal');
+            normalModeBtn.classList.add('bg-primary');
+            normalModeBtn.classList.remove('bg-gray-600', 'hover:bg-primary');
+            interactiveModeBtn.classList.remove('bg-primary');
+            interactiveModeBtn.classList.add('bg-gray-600', 'hover:bg-primary');
+        });
+        
+        interactiveModeBtn.addEventListener('click', () => {
+            contentContainer.classList.remove('mode-normal');
+            contentContainer.classList.add('mode-interactive');
+            interactiveModeBtn.classList.add('bg-primary');
+            interactiveModeBtn.classList.remove('bg-gray-600', 'hover:bg-primary');
+            normalModeBtn.classList.remove('bg-primary');
+            normalModeBtn.classList.add('bg-gray-600', 'hover:bg-primary');
+        });
+        
+        // 中文内容切换功能 - 修复版
+        document.querySelectorAll('.toggleable-chinese').forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                // 切换active类
+                this.classList.toggle('active');
+                
+                // 更新文字显示
+                if (this.classList.contains('active')) {
+                    this.textContent = '点击隐藏中文';
+                } else {
+                    this.textContent = '点击显示中文';
+                }
+            });
+        });
+
+        // AI问答功能
+        const questionInput = document.getElementById('questionInput');
+        const askButton = document.getElementById('askButton');
+        const answerContainer = document.getElementById('answerContainer');
+        const answerText = document.getElementById('answerText');
+
+        // 预设的问答数据库
+        const qaDatabase = {
+            "什么是普莱西诉弗格森案？": "普莱西诉弗格森案(1896)是美国最高法院审理的标志性宪法民权案件，该案确立了'隔离但平等'的原则，为美国近60年的种族隔离制度奠定了法律基础。",
+            "案件的核心争议是什么？": "案件的核心争议是路易斯安那州要求铁路公司为白人和有色人种提供'隔离但平等'乘客设施的法律，是否违反美国宪法第13修正案和第14修正案。",
+            "判决结果是什么？": "最高法院维持了下级法院的判决，认定该州法合宪，确立了'隔离但平等'原则，直到1954年的布朗诉教育委员会案才被推翻。",
+            "什么是'隔离但平等'原则？": "'隔离但平等'原则是该案确立的法律原则，允许各州在公共设施中实行种族隔离，只要为不同种族提供的设施在质量上是平等的。",
+            "谁是荷马·普莱西？": "荷马·普莱西是本案的原告，他拥有八分之七的白人血统和八分之一的非洲血统，因拒绝离开白人车厢而被逮捕。",
+            "该案的影响是什么？": "该案为美国的种族隔离制度提供了法律依据，影响持续近60年，直到1954年的布朗案才被推翻，是美国民权运动史上的重要案件。"
+        };
+
+        // 处理提问
+        askButton.addEventListener('click', () => {
+            const question = questionInput.value.trim();
+            if (!question) return;
+            
+            // 查找匹配的回答
+            let answer = "抱歉，我无法回答这个问题。请尝试询问与普莱西诉弗格森案相关的问题，例如：'什么是普莱西诉弗格森案？'";
+            for (const key in qaDatabase) {
+                if (question.includes(key) || key.includes(question)) {
+                    answer = qaDatabase[key];
+                    break;
+                }
+            }
+            
+            // 显示回答
+            answerText.textContent = answer;
+            answerContainer.classList.remove('hidden');
+            
+            // 滚动到回答区域
+            answerContainer.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // 支持回车键提问
+        questionInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                askButton.click();
+            }
+        });
+    </script>
+</body>
+</html>
